@@ -1,0 +1,8 @@
+# MacOS files
+.DS_Store
+
+# Private Key
+*.key
+
+# Certificates Generated
+certificates.d/*
