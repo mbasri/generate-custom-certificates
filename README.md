@@ -26,24 +26,40 @@ chmod +x /run
 ### Usage example
 
 ```bash
-# Create root CA folder
+# 01. Create root CA folder
 mkdir -p certificates.d/test.com
 
-# !!! Copy '.vars' file AND UPDATE IT AS YOU NEED.
+# 02. !!! Copy '.vars' file AND UPDATE IT AS YOU NEED.
 cp example.d/example.com/.vars certificates.d/test.com/.vars
 
-# Create the Certificate Authority
+# the arboberence should be as follows ==>
+# .
+# ├──certificates.d
+# │   └── example.com
+# └──       └── .vars
+
+# 03. Create the Certificate Authority
 ./run create ca test.com
 
-# Check your Certificate Authority
+# 04. Check your Certificate Authority
 ./run open ca test.com
 
-# Create the Domain Certificate signed by the Certificate Authority
+# 06. Create the Domain Certificate signed by the Certificate Authority
 ./run create domain test.com subtest
 
-# Check your Domain Certificate
+# 07. Check your Domain Certificate
 ./run open domain test.com subtest
 ```
+
+### Create a wildcard certificate
+
+```bash
+# Check your Domain Certificate
+./run create domain test.com "*"
+```
+
+> Make sure that the `"` is present
+
 
 ### Variables
 
