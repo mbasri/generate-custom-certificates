@@ -32,7 +32,7 @@ mkdir -p certificates.d/test.com
 # 02. !!! Copy '.vars' file AND UPDATE IT AS YOU NEED.
 cp example.d/example.com/.vars certificates.d/test.com/.vars
 
-# the arboberence should be as follows ==>
+# The arboberence should be as follows ==>
 # .
 # ├──certificates.d
 # │   └── example.com
@@ -51,11 +51,14 @@ cp example.d/example.com/.vars certificates.d/test.com/.vars
 ./run open domain test.com subtest
 ```
 
-### Create a wildcard certificate
+### Create a Wildcard Certificate
 
 ```bash
-# Check your Domain Certificate
+# Create the Wildcard certificate
 ./run create domain test.com "*"
+
+# Check your Wildcard Certificate
+./run open domain test.com subtest
 ```
 
 > Make sure that the `"` is present

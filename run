@@ -34,7 +34,7 @@ function display_error {
   printf "${RED}%-10s${NC} %b\n" "[ERROR]" "${1}" >&2
 }
 
-#Load variables file [COUNTRY, STATE, CITY, ORGANISATION, ORGANISATION_UNIT, CA, EMAIL, VALID_DAYS] 
+# Load variables file [COUNTRY, STATE, CITY, ORGANISATION, ORGANISATION_UNIT, EMAIL, VALID_DAYS] 
 function load_vars {
   source .vars
   if [ ! "${COUNTRY}" ] \
@@ -42,7 +42,6 @@ function load_vars {
     || [ ! "${CITY}"  ] \
     || [ ! "${ORGANISATION}"  ] \
     || [ ! "${ORGANISATION_UNIT}"  ] \
-    || [ ! "${CA}"  ] \
     || [ ! "${EMAIL}"  ] \
     || [ ! "${VALID_DAYS}"  ]
   then
