@@ -55,6 +55,8 @@ function load_vars {
 CA="${3}"
 DOMAIN_NAME="${4}"
 
+KEY_SIZE=2048
+
 case ${1} in
   "create")
     case ${2} in
@@ -68,7 +70,7 @@ case ${1} in
         cd certificates.d/${CA}
         load_vars
         cd ca
-        openssl genrsa 4096 > ${CA}.key
+        openssl genrsa ${KEY_SIZE} > ${CA}.key
         openssl req -new -x509 \
           -days ${VALID_DAYS} \
           -key ${CA}.key \
@@ -97,7 +99,7 @@ case ${1} in
         cd certificates.d/${CA}/
         load_vars
         cd ${DOMAIN_NAME}.${CA}
-        openssl genrsa 4096 > ${DOMAIN_NAME}.${CA}.key
+        openssl genrsa ${KEY_SIZE} > ${DOMAIN_NAME}.${CA}.key
         openssl req -new \
         -days ${VALID_DAYS} \
         -key ${DOMAIN_NAME}.${CA}.key \
