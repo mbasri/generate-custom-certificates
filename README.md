@@ -18,7 +18,7 @@ chmod +x /run
 ## Usage
 
 ```bash
-./run [create|open] [ca|domain] <ca> <domain name>
+./run [create|open] [ca|domain|p12] <ca> <domain name>
 ```
 
 > Make sure that the `run` file can be executed  ```chmod +x ~/generate-custom-certificates/run```
@@ -49,6 +49,12 @@ cp example.d/example.com/.vars certificates.d/test.com/.vars
 
 # 07. Check your Domain Certificate
 ./run open domain test.com subtest
+
+# 08. Create the pkcs12 file
+./run create p12 test.com subtest
+
+# 09. Check your pkcs12 file
+./run open p12 test.com subtest
 ```
 
 ### Create a Wildcard Certificate

@@ -3,7 +3,7 @@
 ######################################
 # run
 # Description: Script to use for create SSL Certificate Authority & SSL Domain Certificate signed
-# Usage: ./run [create|open] [ca|domain] <ca> <domain name>
+# Usage: ./run [create|open] [ca|domain|p12] <ca> <domain name>
 # Author: mbasri <mbasri.dev@outlook.com>
 # Version: 1.0
 ######################################
@@ -19,7 +19,7 @@ NC='\033[0m'
 function help {
   printf "Description: Script to use for create SSL Certificate Authority & SSL Domain Certificate signed\n\n"
   printf "Command to use:\n"
-	printf "${GREEN}${0}${NC} ${BLUE}[create|open] [ca|domain] <ca> <domain name>${NC}\n"
+	printf "${GREEN}${0}${NC} ${BLUE}[create|open] [ca|domain|p12] <ca> <domain name>${NC}\n"
 }
 
 function display_info {
@@ -46,7 +46,7 @@ function load_vars {
     || [ ! "${VALID_DAYS}"  ]
   then
     display_error "Somethink wrong with the ${RED}variables file${NC}:"
-    display_error "1. Please check if the file ${RED}'.vars'${NC} is present in Certificate Authority foler"
+    display_error "1. Please check if the file ${RED}'.vars'${NC} is present in Certificate Authority folder"
     display_error "2. Please check if the following variables is setted ${RED}[COUNTRY, STATE, CITY, ORGANISATION, ORGANISATION_UNIT, EMAIL, VALID_DAYS]${NC}"
     exit 1
   fi
@@ -129,6 +129,34 @@ case ${1} in
         display_info "Domain Certificate '${DOMAIN_NAME}.${CA}.crt' with CA signature created"
       ;;
 
+      "p12")
+        if [ -f certificates.d/${CA}/${DOMAIN_NAME}.${CA}/${DOMAIN_NAME}.${CA}.p12 ]
+        then
+          display_error "PKCS12 file '${DOMAIN_NAME}.${CA}.p12' already exist"
+          exit 1
+        fi
+        if [ ! ${DOMAIN_NAME} ]
+        then
+          help
+          exit 128;
+        fi
+        cd certificates.d/${CA}/
+        load_vars
+        cd ${DOMAIN_NAME}.${CA}
+
+        openssl pkcs12 -export \
+        -out ${DOMAIN_NAME}.${CA}.p12 \
+        -inkey ${DOMAIN_NAME}.${CA}.key \
+        -in ${DOMAIN_NAME}.${CA}.crt
+
+        if [ $? != 0 ]
+        then
+          display_error KO
+          exit
+        fi
+        display_info "PKCS12 file '${DOMAIN_NAME}.${CA}.p12' created"
+
+      ;;
       *)
         help
         exit 128;
@@ -143,6 +171,9 @@ case ${1} in
     elif [ "$2" == "domain" ]
     then
       openssl x509 -noout -text -in certificates.d/${CA}/${DOMAIN_NAME}.${CA}/${DOMAIN_NAME}.${CA}.crt
+    elif [ "$2" == "p12" ]
+    then
+      openssl pkcs12 -in certificates.d/${CA}/${DOMAIN_NAME}.${CA}/${DOMAIN_NAME}.${CA}.p12 -info
     else
       help
       exit 128
