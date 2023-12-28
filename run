@@ -55,6 +55,11 @@ function load_vars {
 CA="${3}"
 DOMAIN_NAME="${4}"
 
+function import_to_aws {
+  display_info "Command to use to import to ${YELLOW}AWS${NC}:"
+  display_info "aws --profile profile --region eu-west-3 acm import-certificate --certificate fileb://certificates.d/${CA}/${DOMAIN_NAME}.${CA}/${DOMAIN_NAME}.${CA}.crt --certificate-chain fileb://certificates.d/${CA}/ca/${CA}.crt --private-key fileb://certificates.d/${CA}/${DOMAIN_NAME}.${CA}/${DOMAIN_NAME}.${CA}.key"
+}
+
 KEY_SIZE=2048
 
 case ${1} in
@@ -127,6 +132,7 @@ case ${1} in
           exit
         fi
         display_info "Domain Certificate '${DOMAIN_NAME}.${CA}.crt' with CA signature created"
+        import_to_aws
       ;;
 
       "p12")
@@ -155,8 +161,8 @@ case ${1} in
           exit
         fi
         display_info "PKCS12 file '${DOMAIN_NAME}.${CA}.p12' created"
-
       ;;
+
       *)
         help
         exit 128;
@@ -171,6 +177,7 @@ case ${1} in
     elif [ "$2" == "domain" ]
     then
       openssl x509 -noout -text -in certificates.d/${CA}/${DOMAIN_NAME}.${CA}/${DOMAIN_NAME}.${CA}.crt
+      import_to_aws
     elif [ "$2" == "p12" ]
     then
       openssl pkcs12 -in certificates.d/${CA}/${DOMAIN_NAME}.${CA}/${DOMAIN_NAME}.${CA}.p12 -info
