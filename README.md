@@ -10,7 +10,7 @@ Create SSL Certificate Authority & SSL Domain Certificate signed
 ## Installation
 
 ```bash
-git clone https://gitlab.com/mbasri/generate-custom-certificates ~/generate-custom-certificates
+git clone https://github.com/mbasri/generate-custom-certificates ~/generate-custom-certificates
 cd ~/generate-custom-certificates
 chmod +x /run
 ```
@@ -85,7 +85,7 @@ This file need to be present on each root 'Certificate Authority' folder.
 
 ## Author
 
-* [**Mohamed BASRI**](https://gitlab.com/mbasri)
+* [**Mohamed BASRI**](https://github.com/mbasri)
 
 ## License
 
